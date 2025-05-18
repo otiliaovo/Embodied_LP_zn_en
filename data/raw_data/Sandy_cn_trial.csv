@@ -1,0 +1,31 @@
+id,reactionTime,elapsedTime,Total time,correct,answer,valance,congruency,block,phase,questionCounter,,,,
+13,1.283,0.6,1.883,TRUE,yes,negative,incongruent,1,1,4,,correctness,0.633333333,
+15,1.199,0.448,1.647,TRUE,yes,negative,incongruent,1,1,6,,,,
+14,1.774,0.499,2.273,TRUE,yes,negative,incongruent,1,1,15,,,,
+12,1.646,0.569,2.215,TRUE,yes,negative,incongruent,1,1,19,,RT mean/s,,
+11,3.849,0.682,4.531,TRUE,yes,negative,incongruent,1,1,23,,,congruency,Incongruency
+8,2.13,0.802,2.932,TRUE,yes,positive,incongruent,1,1,3,,positive,1.463,1.836
+10,1.481,0.666,2.147,TRUE,yes,positive,incongruent,1,1,16,,negative,1.494,1.95
+9,1.713,0.642,2.355,TRUE,yes,positive,incongruent,1,1,29,,,,
+7,2.019,0.617,2.636,TRUE,yes,positive,incongruent,1,1,30,,,,
+16,1.033,1.044,2.077,TRUE,yes,negative,congruent,1,1,7,,ET mean/s,,
+18,1.675,0.895,2.57,TRUE,yes,negative,congruent,1,1,14,,,congruency,Incongruency
+19,1.779,0.971,2.75,TRUE,yes,negative,congruent,1,1,20,,positive,0.566,0.682
+17,1.458,0.588,2.046,TRUE,yes,negative,congruent,1,1,21,,negative,0.823,0.56
+20,1.525,0.617,2.142,TRUE,yes,negative,congruent,1,1,27,,,,
+4,1.48,0.473,1.953,TRUE,yes,positive,congruent,1,1,5,,,,
+3,1.42,0.626,2.046,TRUE,yes,positive,congruent,1,1,9,,TT mean/s,,
+5,1.662,0.626,2.288,TRUE,yes,positive,congruent,1,1,12,,,congruency,Incongruency
+2,1.117,0.695,1.812,TRUE,yes,positive,congruent,1,1,13,,positive,2.029,2.518
+1,1.638,0.41,2.048,TRUE,yes,positive,congruent,1,1,24,,negative,2.317,2.51
+24,2.07,0.674,2.744,TRUE,no,neutral,/,1,1,1,,,,
+29,1.864,0.527,2.391,TRUE,no,neutral,/,1,1,8,,,,
+26,1.243,0.564,1.807,TRUE,no,neutral,/,1,1,17,,,,
+21,1.297,0.496,1.793,TRUE,no,neutral,/,1,1,18,,,,
+25,2.584,0.69,3.274,TRUE,no,neutral,/,1,1,22,,,,
+27,3.318,0.584,3.902,TRUE,no,neutral,/,1,1,25,,,,
+28,1.336,0.586,1.922,TRUE,no,neutral,/,1,1,26,,,,
+30,2.063,0.658,2.721,TRUE,no,neutral,/,1,1,28,,,,
+6,1.269,1.045,2.314,FALSE,no,positive,incongruent,1,1,2,,,,
+22,1.394,0.609,2.003,FALSE,yes,neutral,/,1,1,10,,,,
+23,1.769,0.648,2.417,FALSE,yes,neutral,/,1,1,11,,,,
