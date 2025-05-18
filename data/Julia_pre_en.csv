@@ -1,0 +1,29 @@
+id,reactionTime,elapsedTime,correct,answer,valance,congruency,block,phase,questionCounter,,,,
+1,816,770,TRUE,yes,positive,congruent,1,1,26,,,,
+2,1390,742,TRUE,yes,positive,congruent,1,1,18,,,,
+3,1793,609,TRUE,yes,positive,congruent,1,1,28,,,,
+4,1404,599,TRUE,yes,positive,congruent,1,1,19,,,,
+5,945,905,TRUE,yes,positive,congruent,1,1,23,,,,
+7,1823,240,TRUE,yes,positive,incongruent,1,1,7,,RT mean/s,,
+9,1831,553,TRUE,yes,positive,incongruent,1,1,14,,,congruency,Incongruency
+10,922,376,TRUE,yes,positive,incongruent,1,1,27,,positive,1269.60,1525.33
+11,3553,512,TRUE,yes,negative,incongruent,1,1,2,,negative,1880.80,1955.67
+13,1076,280,TRUE,yes,negative,incongruent,1,1,8,,,,
+15,1238,803,TRUE,yes,negative,incongruent,1,1,29,,,,
+16,923,480,TRUE,yes,negative,congruent,1,1,22,,ET mean/s,,
+17,2425,666,TRUE,yes,negative,congruent,1,1,4,,,congruency,Incongruency
+18,4293,458,TRUE,yes,negative,congruent,1,1,10,,positive,725.000,389.667
+19,946,920,TRUE,yes,negative,congruent,1,1,24,,negative,695.200,531.667
+20,817,952,TRUE,yes,negative,congruent,1,1,30,,,,
+21,1052,328,TRUE,no,neutral,/,1,1,16,,,,
+22,1753,675,TRUE,no,neutral,/,1,1,15,,TT mean/s,,
+23,1333,530,TRUE,no,neutral,/,1,1,12,,,congruency,Incongruency
+24,1064,332,TRUE,no,neutral,/,1,1,17,,positive,"1,994.600","1,915.000"
+25,1283,352,TRUE,no,neutral,/,1,1,20,,negative,"2,576.000","2,487.333"
+26,973,656,TRUE,no,neutral,/,1,1,13,,,,
+27,971,576,TRUE,no,neutral,/,1,1,25,,,,
+28,1423,248,TRUE,no,neutral,/,1,1,6,,,,
+29,1243,269,TRUE,no,neutral,/,1,1,5,,,,
+30,995,264,TRUE,no,neutral,/,1,1,21,,,,
+12,3777,592,FALSE,no,negative,incongruent,1,1,1,,,,
+6,1736,232,FALSE,no,positive,incongruent,1,1,3,,,,
