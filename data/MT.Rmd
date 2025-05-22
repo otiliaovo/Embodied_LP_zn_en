@@ -1,15 +1,3 @@
----
-title: "MT"
-output:
-  word_document: default
-  pdf_document: default
-  html_document: default
-date: "2024-01-29"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 # LOAD PACKAGES
 ```{r}
@@ -23,7 +11,7 @@ library("effectsize")
 ``` 
 ```{r}
 # import data
-my_data <- read.csv("output_file.csv")
+my_data <- read.csv("sample_data.csv")
 my_data$movement_time <- as.integer(my_data$movement_time)
 str(my_data)
 ```
@@ -33,10 +21,12 @@ str(my_data)
 head(my_data,10)
 summary(my_data)
 ```
+
+
 # CLEAN DATA
 ```{r}
 # exclude the subjects with low BMI test
-data <- my_data[my_data$participant != 'Zli97'&my_data$participant != 'Ylu01'&my_data$participant != 'Wchan02'&my_data$participant != 'Ljiang98',]
+data <- my_data[my_data$participant != 'xxx',]
 summary(data)
 data_1 <- data[data$valence!= "neutral",]
 summary(data_1)
@@ -45,9 +35,9 @@ summary(data_1)
 
 # CLEAN DATA
 ```{r}
-# select relevant coloums
+# select relevant columns
 MT_data <- data_1 %>%
-  dplyr::select("experiment_id","participant","valence","response_direction","movement_time","correct","congruency","type_chinese","english_proficiency","stayed_english_speaking_countries")
+dplyr::select("experiment_id","participant","valence","response_direction","movement_time","correct","congruency","type_chinese","english_proficiency","stayed_english_speaking_countries")
 MT_data["sentence_id"] <- my_data["question_id"]
 head(MT_data,10)
 summary(MT_data)
@@ -55,7 +45,7 @@ summary(MT_data)
 
 
 ```{r}
-# valid the data
+# validate the data
 valid_data_MT <- MT_data %>%
   filter(correct == TRUE) %>%
   filter(movement_time > 100 & movement_time <= 5000)
@@ -64,7 +54,7 @@ summary(valid_data_MT)
 
 
 ```{r}
-# calculate sd
+# calculate SD
 condition_MT <- valid_data_MT %>%
   group_by(experiment_id,participant,valence,response_direction) %>%
   summarise(mean_MT = mean(movement_time),
@@ -93,271 +83,14 @@ results_MT %>%
 ```
 
 
-# MEAN RT
-```{r}
-mean_MT <- results_MT %>%
-  group_by(experiment_id,participant, valence, response_direction) %>%
-  summarise(mean=mean(movement_time), sd=sd(movement_time)) %>%
-  group_by(experiment_id, valence, response_direction) %>%
-  summarise(mean_MT = mean(mean),sd_MT=sd(sd)) %>%
-  arrange(experiment_id,valence)
-mean_MT
-```
-
-# FACTOR THE VARIABLES
-```{r}
-# factor the effects
-results_MT$experiment_id <- factor(results_MT$experiment_id)
-results_MT$participant <- factor(results_MT$participant)
-results_MT$valence<-factor(results_MT$valence,levels = c("positive","negative"))
-results_MT$response_direction <- factor(results_MT$response_direction,levels = c("up","down"))
-results_MT$congruency <- factor(results_MT$congruency)
-results_MT$type_chinese <- factor(results_MT$type_chinese)
-results_MT$stayed_english_speaking_countries <- factor(results_MT$stayed_english_speaking_countries)
-```
-
-# EX1 MT
-```{r}
-# seperat the data for ex1
-EX1_MT <- results_MT %>%
-  filter(experiment_id == 1)
-summary(EX1_MT)
-```
-
-
-```{r}
-# Lmer model for ex1
-LLM_EX1_MT <- lmer(movement_time ~ valence+response_direction + (1 | participant) + (1 | sentence_id), data = EX1_MT)
-LLM_EX1_MT_1 <- lmer(movement_time ~ valence*response_direction + (1 | participant) + (1 | sentence_id), data = EX1_MT)
-anova(LLM_EX1_MT,LLM_EX1_MT_1)
-LLM_EX1_MT_2 <- lmer(movement_time ~ type_chinese+english_proficiency+valence+response_direction + (1 | participant) + (1 | sentence_id), data = EX1_MT)
-anova(LLM_EX1_MT,LLM_EX1_MT_2)
-summary(LLM_EX1_MT)
-```
-
-
-```{r}
-# F-statistic for ex1
-anova(LLM_EX1_MT)
-```
-
-
-```{r}
-# check relevance of independent variables
-eta_squared(LLM_EX1_MT,partial=TRUE)
-```
-
-
-```{r}
-# emms for llm
-EMMs_EX1_MT <- emmeans(LLM_EX1_MT,~valence*response_direction)
-summary(EMMs_EX1_MT)
-```
-
-
-```{r}
-# post hoc
-emmeans(LLM_EX1_MT,pairwise~response_direction,adjust = "tukey")
-emmeans(LLM_EX1_MT,pairwise~valence,adjust = "tukey")
-```
-
-
-```{r}
-# raw mean values
-means_EX1_MT <- EX1_MT %>%
-  group_by(participant,valence,response_direction) %>%
-  summarise(mean_MT = mean(movement_time)) %>%
-  group_by(valence,response_direction) %>%
-  summarise(mean = mean(mean_MT))
-means_EX1_MT
-
-# 2-way interaction plot
-ggplot(means_EX1_MT, aes(x = response_direction, y = mean, color = valence)) +
-  geom_point() +
-  geom_line(aes(group = valence)) +
-  labs(x = "Reponse Direction", y = "Mean Movement Time (ms)", color = "Valence") +
-  theme_minimal()
-```
-
-# EX2 RT
-```{r}
-# seperat the data for ex1
-EX2_MT <- results_MT %>%
-  filter(experiment_id == 2)
-summary(EX2_MT)
-```
-
-
-```{r}
-# Lmer model for ex1
-LLM_EX2_MT <- lmer(movement_time ~ valence+response_direction + (1 | participant) + (1 | sentence_id), data = EX2_MT)
-LLM_EX2_MT_1 <- lmer(movement_time ~ valence*response_direction + (1 | participant) + (1 | sentence_id), data = EX2_MT)
-anova(LLM_EX2_MT,LLM_EX2_MT_1)
-LLM_EX2_MT_2 <- lmer(movement_time ~ type_chinese+english_proficiency+valence+response_direction + (1 | participant) + (1 | sentence_id), data = EX2_MT)
-anova(LLM_EX2_MT,LLM_EX2_MT_2)
-summary(LLM_EX2_MT)
-```
-
-
-```{r}
-# F-statistic for ex1
-anova(LLM_EX2_MT)
-```
-
-
-```{r}
-# check relevance of independent variables
-eta_squared(LLM_EX2_MT,partial=TRUE)
-# eta_sq(LMM_EX2_RT, partial = TRUE)
-```
 
 
 
-```{r}
-# post hoc
-emmeans(LLM_EX2_MT,pairwise~valence,adjust = "tukey")
-```
 
 
-```{r}
-# raw mean values
-means_EX2_MT <- EX2_MT %>%
-  group_by(participant,valence,response_direction) %>%
-  summarise(mean_MT = mean(movement_time)) %>%
-  group_by(valence,response_direction) %>%
-  summarise(mean = mean(mean_MT))
-means_EX2_MT
-
-# 2-way interaction plot
-ggplot(means_EX2_MT, aes(x = response_direction, y = mean, color = valence)) +
-  geom_point() +
-  geom_line(aes(group = valence)) +
-  labs(x = "Reponse Direction", y = "Mean Movement Time (ms)", color = "Vlence") +
-  theme_minimal()
-```
-
-# EX3 RT
-```{r}
-# seperat the data for ex3
-EX3_MT <- results_MT %>%
-  filter(experiment_id == 3)
-summary(EX3_MT)
-```
 
 
-```{r}
-# Lmer model for ex3
-LLM_EX3_MT <- lmer(movement_time ~ valence+response_direction + (1 | participant) + (1 | sentence_id), data = EX3_MT)
-LLM_EX3_MT_1 <- lmer(movement_time ~ valence*response_direction + (1 | participant) + (1 | sentence_id), data = EX3_MT)
-anova(LLM_EX3_MT,LLM_EX3_MT_1)
-LLM_EX3_MT_2 <- lmer(movement_time ~ type_chinese+english_proficiency+valence*response_direction + (1 | participant) + (1 | sentence_id), data = EX3_MT)
-anova(LLM_EX3_MT_2,LLM_EX3_MT_1)
-summary(LLM_EX3_MT_1)
-```
 
 
-```{r}
-# F-statistic for ex1
-anova(LLM_EX3_MT_1)
-```
 
 
-```{r}
-# check relevance of independent variables
-eta_squared(LLM_EX3_MT_1,partial=TRUE)
-# eta_sq(LMM_EX2_RT, partial = TRUE)
-```
-
-
-```{r}
-# emms for llm
-EMMs_EX3_MT <- emmeans(LLM_EX3_MT,~valence*response_direction)
-summary(EMMs_EX3_MT)
-```
-
-
-```{r}
-# post hoc
-emmeans(LLM_EX3_MT_1,pairwise~valence,adjust = "tukey")
-emmeans(LLM_EX3_MT_1,pairwise~response_direction,adjust = "tukey")
-emmeans(LLM_EX3_MT_1,pairwise~valence*response_direction,adjust = "tukey")
-```
-
-
-```{r}
-# raw mean values
-means_EX3_MT <- EX3_MT %>%
-  group_by(participant,valence,response_direction) %>%
-  summarise(mean_MT = mean(movement_time)) %>%
-  group_by(valence,response_direction) %>%
-  summarise(mean = mean(mean_MT))
-means_EX3_MT
-
-# 2-way interaction plot
-ggplot(means_EX3_MT, aes(x = valence, y = mean, color = response_direction)) +
-  geom_point() +
-  geom_line(aes(group = response_direction)) +
-  labs(x = "Valence", y = "Mean Movement Time (ms)", color = "Response Direction") +
-  theme_minimal()
-```
-
-
-# Ex1.2.3
-```{r}
-# lmer model
-LLM_MT <- lmer(movement_time ~ experiment_id+valence+response_direction + (1 | participant) + (1 | sentence_id), data = results_MT)
-LLM_MT_1 <- lmer(movement_time ~ 
-                   experiment_id*valence*response_direction + (1 | participant) + (1 | sentence_id), data = results_MT)
-anova(LLM_MT,LLM_MT_1)
-LLM_MT_2 <- lmer(movement_time ~ type_chinese+english_proficiency+stayed_english_speaking_countries+experiment_id*valence*response_direction + (1 | participant) + (1 | sentence_id), data = results_MT)
-anova(LLM_MT_2,LLM_MT_1)
-summary(LLM_MT_1)
-```
-
-
-```{r}
-# F-statistic for ex1
-anova(LLM_MT_1)
-```
-
-
-```{r}
-# check relevance of independent variables
-eta_squared(LLM_MT_1,partial=TRUE)
-# eta_sq(LMM_EX2_RT, partial = TRUE)
-```
-
-
-```{r}
-# emms for llm
-EMMs_MT <- emmeans(LLM_MT_1,~valence*response_direction|experiment_id)
-summary(EMMs_MT)
-```
-
-
-```{r}
-# post hoc
-emmeans(LLM_MT_1,pairwise~response_direction,adjust = "tukey")
-emmeans(LLM_MT_1,pairwise~valence,adjust = "tukey")
-emmeans(LLM_MT_1,pairwise~experiment_id*response_direction,adjust = "tukey")
-emmeans(LLM_MT_1,pairwise~valence*response_direction,adjust = "tukey")
-```
-
-
-```{r}
-# raw mean values
-means_MT <- results_MT %>%
-  group_by(experiment_id,participant,valence, response_direction) %>%
-  summarise(mean_MT = mean(movement_time)) %>%
-  group_by(experiment_id, valence, response_direction) %>%
-  summarise(mean = mean(mean_MT))
-means_MT
-
-# 2-way interaction plot
-ggplot(means_MT, aes(x = response_direction , y = mean, color = valence)) +
-  geom_point() +
-  geom_line(aes(group =valence )) +
-  facet_wrap(~ experiment_id) +
-  labs(x = " Response Direction", y = "Mean Movement Time (ms)", color = "Valence") +
-  theme_minimal()
-```
